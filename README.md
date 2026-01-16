@@ -1,76 +1,79 @@
-# React + TypeScript + Vite
+# 📚 Source Extractor & Citation Helper
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This website helps you **create reliable source references** quickly and easily.
+Users can paste a **URL** of an article or website, and the program automatically tries to extract key metadata such as:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Author**
+* **Creation / publication date**
+* **Title**
 
-## React Compiler
+The extracted information is displayed in an **editable table**, allowing users to correct or complete missing data. Once finalized, the sources can be **exported for use in presentations or academic work**.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Additionally, the tool **analyzes the trustworthiness of the source** and warns users if the website may not be reliable.
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Paste any website or article URL
+* Automatic metadata detection:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  * Author
+  * Title
+  * Creation / publication date
+* Editable table view for all extracted sources
+* Export sources for presentations or documents
+* Trustworthiness warning for potentially unreliable sources
+* User-friendly interface
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## How It Works
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. Paste a URL into the input field
+2. The system scans the page metadata and content
+3. Extracted information is displayed in a table
+4. Edit or complete the data if needed
+5. Export the formatted sources
+6. Receive warnings if the source may not be trustworthy
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-"# sourcesManager" 
+## ⚠️ Source Trustworthiness Check
+
+The website evaluates sources based on factors such as:
+
+* Missing or unclear authorship
+* No publication date
+* Non-credible or unknown domains
+* Other reliability indicators
+
+⚠️ **Note:** The trustworthiness check is a support feature and should not replace critical evaluation by the user.
+
+---
+
+##  Use Cases
+
+* School presentations
+* Academic research
+* Essays and reports
+* Quick source management
+* Citation preparation
+
+---
+
+##  Future Improvements (Optional)
+
+* Support for multiple citation styles (APA, MLA, Chicago, Harvard, etc.)
+* Browser extension
+* Batch URL processing
+* PDF export
+* Account-based source management
+
+---
+
+##  Disclaimer
+
+This tool attempts to extract metadata automatically, but **accuracy is not guaranteed**. Users should always verify sources before submitting academic work.
