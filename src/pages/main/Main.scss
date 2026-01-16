@@ -1,0 +1,24 @@
+@use "../../utils/Variables.scss" as *;
+
+.main {
+
+    table {
+        width: calc(100% - 40px);
+        padding: 20px;
+        $borderColor: $themeColor2;
+
+        tr td:not(.last-of-type),
+        tr th:not(.last-of-type) {
+            border-right: 1px solid $borderColor;
+        }
+
+        tr th {
+            border-bottom: 1px solid $borderColor;
+        }
+
+        tr th:first-of-type {
+            border-left: 1px solid $borderColor;
+        }
+    }
+
+}

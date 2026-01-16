@@ -1,0 +1,1 @@
+{AUTHOR}: {TITLE}. {WEBSITE_NAME}, {ARTICLE_CREATED_AT;DD.MM.YYYY}. Verfügbar unter: {URL} (Zugriff am: {LAST_VISITED;DD.MM:YYYY}).

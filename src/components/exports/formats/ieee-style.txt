@@ -1,0 +1,1 @@
+[INDEX] A. {AUTHOR}, "{TITLE}", {WEBSITE_NAME}, {ARTICLE_CREATED_AT; YYYY}. [Online]. Available: {URL} [Accessed: {LAST_VISITED;M. DD, YYYY}].
