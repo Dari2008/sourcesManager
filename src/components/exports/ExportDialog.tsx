@@ -1,28 +1,52 @@
-import APA_STYLE from "./formats/apa-style.txt";
-import MLA_STYLE from "./formats/mla-style.txt";
-import CHICAGO_STYLE from "./formats/chicago-style.txt";
-import HARVARD_STYLE from "./formats/harvard-style.txt";
-import IEEE_STYLE from "./formats/ieee-style.txt";
-import DIN_ISO_690_STYLE from "./formats/din-iso-690-style.txt";
-import { useRef, useState } from "react";
+import APA_STYLE from "./formats/apa-style.txt?raw";
+import MLA_STYLE from "./formats/mla-style.txt?raw";
+import CHICAGO_STYLE from "./formats/chicago-style.txt?raw";
+import HARVARD_STYLE from "./formats/harvard-style.txt?raw";
+import IEEE_STYLE from "./formats/ieee-style.txt?raw";
+import DIN_ISO_690_STYLE from "./formats/din-iso-690-style.txt?raw";
+import { useEffect, useRef, useState, type DialogHTMLAttributes } from "react";
 import type { Source } from "../dataLoader/DataLoader";
 import parseExportFormat from "./ExportParser";
+import "./ExportDialog.scss";
 
+type Props = React.DetailedHTMLProps<DialogHTMLAttributes<HTMLDialogElement>, HTMLDialogElement> & {
+    sources: Source[];
+    buttonRef?: React.RefObject<HTMLButtonElement | null>;
+}
 
-export default function ExportDialog({ sources }: { sources: Source[] }) {
+export default function ExportDialog({ sources, buttonRef, ...dialogProps }: Props) {
 
     const [format, setFormat] = useState<ExportFormat>("json");
     const exportFormatSelectRef = useRef<HTMLSelectElement>(null);
     const [state, setState] = useState<"idle" | "exporting" | "done">("idle");
     const [exportedData, setExportedData] = useState<string>("");
-    const customFormatRef = useRef<HTMLDivElement>(null);
+    const customFormatRef = useRef<string>(null);
+    const dialogRef = useRef<HTMLDialogElement>(null);
 
-    return state != "idle" && <dialog className="exportDialog">
+    function openDialog() {
+        setState("exporting");
+        dialogRef.current?.showModal();
+    }
+
+    function closeDialog() {
+        dialogRef.current?.close();
+        setState("idle");
+        setExportedData("");
+    }
+
+    useEffect(() => {
+        if (buttonRef?.current) {
+            buttonRef.current.onclick = openDialog;
+        }
+    }, [buttonRef]);
+
+    return <dialog className="exportDialog" data-state={state} {...dialogProps} ref={dialogRef}>
         {
             state === "exporting"
                 ?
                 <>
                     <h2>Export Data</h2>
+                    <label htmlFor="exportFormat">Select Export Format:</label>
                     <select name="exportFormat" id="exportFormat" onChange={() => setFormat(exportFormatSelectRef.current?.value as ExportFormat)} ref={exportFormatSelectRef}>
                         <option value="json">JSON</option>
                         <option value="csv">CSV</option>
@@ -36,20 +60,25 @@ export default function ExportDialog({ sources }: { sources: Source[] }) {
                         <option value="dinISO690">DIN ISO 690</option>
                         <option value="custom">Custom Format</option>
                     </select>
-                    {format == "custom" && <div className="exportFormat" ref={customFormatRef} contentEditable={true}></div>}
+                    {format == "custom" && <>
+                        <label htmlFor="exportFormat">Custom Format:</label>
+                        <div className="exportFormat" contentEditable={true} onInput={e => customFormatRef.current = (e.target as HTMLDivElement).textContent || ""}>{customFormatRef.current ?? ""}</div>
+                    </>}
                     <div className="buttons">
-                        <button className="cancel">Cancel</button>
-                        <button className="export" onClick={() => setExportedData(exportData(sources, format, customFormatRef.current?.textContent || ""))}>Export</button>
+                        <button className="cancel" onClick={closeDialog}>Cancel</button>
+                        <button className="export" onClick={() => { setExportedData(exportData(sources, format, customFormatRef.current || "")); setState("done") }}>Export</button>
                     </div>
                 </>
                 :
                 <>
                     <h2>Exported</h2>
                     <p>Your data has been exported successfully.</p>
-                    <textarea name="exportedData" id="exportedData" value={exportedData} readOnly></textarea>
+                    <div id="exportedData" contentEditable={true} suppressContentEditableWarning={true}>{exportedData}</div>
                     <div className="buttons">
-                        <button className="close" onClick={() => setState("idle")}>Close</button>
-                        <button className="copy">Copy</button>
+                        <button className="close" onClick={closeDialog}>Close</button>
+                        <button className="copy" onClick={() => {
+                            navigator.clipboard.writeText(exportedData);
+                        }}>Copy</button>
                     </div>
                 </>
         }
@@ -103,3 +132,4 @@ function exportData(sources: Source[], format: ExportFormat, customFormat: strin
 }
 
 export type ExportFormat = "json" | "csv" | "markdown-table" | "markdown-list-w-bold" | "apa" | "mla" | "chicago" | "harvard" | "ieee" | "dinISO690" | "custom";
+

@@ -35,7 +35,7 @@ html:has(iframe.opened) {
 html,
 body {
     width: 100%;
-    min-height: 100vh;
+    min-height: 80vh;
     max-width: 100vw;
     scroll-behavior: smooth;
     // overflow-x: hidden;
@@ -44,7 +44,7 @@ body {
 }
 
 #root {
-    min-height: 100vh;
+    min-height: 80vh;
 }
 
 button {

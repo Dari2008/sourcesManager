@@ -1,0 +1,80 @@
+@use "../../utils/Variables.scss" as *;
+
+.exportDialog {
+    @include glass-themeColor-opacity-w-color($themeColor3, 10);
+
+    padding: 20px;
+    border-radius: 8px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    &::backdrop {
+        backdrop-filter: blur(10px) brightness(75%);
+    }
+
+    h2 {
+        width: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &[data-state="exporting"] {
+
+        #exportFormat {
+            margin-block: 10px;
+            padding: 7.5px;
+            width: calc(100% - 15px);
+            border-radius: 10px;
+            border: none;
+            font-size: clampW(0.3em, 0.9em, 200px, 2000px);
+            outline: none;
+            cursor: pointer;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .exportFormat {
+            width: 100%;
+            min-height: 100px;
+            border: 2px solid $themeColor3;
+            border-radius: 10px;
+            padding: 10px;
+            margin-block: 10px;
+            font-size: clampW(0.3em, 0.9em, 200px, 2000px);
+            box-sizing: border-box;
+            outline: none;
+            overflow: auto;
+            resize: both;
+
+        }
+    }
+
+    &[data-state="done"] {
+        #exportedData {
+            width: 100%;
+            min-height: 100px;
+            border: 2px solid $themeColor3;
+            border-radius: 10px;
+            padding: 10px;
+            margin-block: 10px;
+            font-size: clampW(0.3em, 0.9em, 200px, 2000px);
+            box-sizing: border-box;
+            outline: none;
+            overflow: auto;
+            resize: both;
+            white-space: pre-wrap;
+        }
+    }
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+}

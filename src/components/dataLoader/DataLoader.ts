@@ -16,6 +16,7 @@ export type Source = {
     url: string;
     title: string;
     author: string;
+    pageName: string;
     dateOfPage: string;
     dateLastVisited: string;
     uuid: string;

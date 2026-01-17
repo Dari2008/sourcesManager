@@ -1,14 +1,49 @@
 @use "../../utils/Variables.scss" as *;
+@use "../../utils/clamp.scss" as *;
+@use "sass:color";
 
 .main {
 
     table {
         width: calc(100% - 40px);
-        padding: 20px;
+        margin: 20px;
+        margin-top: 0px;
+        padding-top: 20px;
         $borderColor: $themeColor2;
+        border-collapse: collapse;
 
-        tr td:not(.last-of-type),
-        tr th:not(.last-of-type) {
+        thead {
+            .url {
+                width: 20%;
+            }
+
+            .ttitle {
+                width: 15%;
+            }
+
+            .author {
+                width: 10%;
+            }
+
+            .pageName {
+                width: 15%;
+            }
+
+            .dateOfPage {
+                width: 10%;
+            }
+
+            .dateLastVisited {
+                width: 15%;
+            }
+
+            .delete {
+                width: 15%;
+            }
+        }
+
+        tr td:not(:last-of-type),
+        tr th:not(:last-of-type) {
             border-right: 1px solid $borderColor;
         }
 
@@ -16,9 +51,91 @@
             border-bottom: 1px solid $borderColor;
         }
 
-        tr th:first-of-type {
-            border-left: 1px solid $borderColor;
+        tbody {
+
+            button {
+                padding-block: 4px;
+                justify-self: center;
+                align-self: center;
+            }
+
+            tr td:first-of-type span {
+                max-width: 300px;
+            }
+
+            tr td:nth-of-type(1),
+            tr td:nth-of-type(5),
+            tr td:nth-of-type(7) {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+
+                span {
+                    padding-block: 7.5px;
+                    margin-block: 5px;
+                }
+            }
+
+            tr td:nth-of-type(7) {
+                display: flex;
+                justify-content: space-evenly;
+                flex-wrap: wrap;
+
+                button {
+                    padding-block: 5px;
+                    margin-block: 8.5px;
+                }
+            }
+
+            tr td:nth-of-type(2),
+            tr td:nth-of-type(3),
+            tr td:nth-of-type(4) {
+                padding: 0 !important;
+
+                input {
+                    width: calc(100% - 10px);
+                    padding: 7.5px;
+                    margin: 5px;
+                    box-sizing: border-box;
+                    border: none;
+                    border-radius: 10px;
+                    font-size: clampW(0.3em, 0.9em, 200px, 2000px);
+                    outline: none;
+                }
+            }
+
+            tr td:nth-of-type(6) {
+                div {
+                    display: flex;
+                    justify-content: space-around;
+                    align-items: center;
+                    width: 100%;
+                }
+            }
+
         }
+
     }
+
+    .top {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .exportBtn {
+            margin-left: auto;
+            margin-right: 20px;
+        }
+
+        h1 {
+            font-size: clampW(0.8em, 2em, 200px, 2000px);
+            margin-left: auto;
+        }
+
+        margin: 10px;
+    }
+
 
 }
