@@ -16,12 +16,22 @@ type Props = React.DetailedHTMLProps<DialogHTMLAttributes<HTMLDialogElement>, HT
 
 export default function ExportDialog({ sources, buttonRef, ...dialogProps }: Props) {
 
-    const [format, setFormat] = useState<ExportFormat>("json");
+    const [format, setF] = useState<ExportFormat>((localStorage.getItem("exportFormat") || "json") as ExportFormat);
     const exportFormatSelectRef = useRef<HTMLSelectElement>(null);
     const [state, setState] = useState<"idle" | "exporting" | "done">("idle");
     const [exportedData, setExportedData] = useState<string>("");
-    const customFormatRef = useRef<string>(null);
+    const customFormat = useRef<string>(localStorage.getItem("customExportFormat") || "");
     const dialogRef = useRef<HTMLDialogElement>(null);
+
+    const setCustomFormat = (newFormat: string) => {
+        localStorage.setItem("customExportFormat", newFormat);
+        customFormat.current = newFormat;
+    }
+
+    const setFormat = (newFormat: ExportFormat) => {
+        localStorage.setItem("exportFormat", newFormat);
+        setF(newFormat);
+    }
 
     function openDialog() {
         setState("exporting");
@@ -47,7 +57,7 @@ export default function ExportDialog({ sources, buttonRef, ...dialogProps }: Pro
                 <>
                     <h2>Export Data</h2>
                     <label htmlFor="exportFormat">Select Export Format:</label>
-                    <select name="exportFormat" id="exportFormat" onChange={() => setFormat(exportFormatSelectRef.current?.value as ExportFormat)} ref={exportFormatSelectRef}>
+                    <select name="exportFormat" value={format} id="exportFormat" onChange={() => setFormat(exportFormatSelectRef.current?.value as ExportFormat)} ref={exportFormatSelectRef}>
                         <option value="json">JSON</option>
                         <option value="csv">CSV</option>
                         <option value="markdown-table">Markdown-table</option>
@@ -62,11 +72,11 @@ export default function ExportDialog({ sources, buttonRef, ...dialogProps }: Pro
                     </select>
                     {format == "custom" && <>
                         <label htmlFor="exportFormat">Custom Format:</label>
-                        <div className="exportFormat" contentEditable={true} onInput={e => customFormatRef.current = (e.target as HTMLDivElement).textContent || ""}>{customFormatRef.current ?? ""}</div>
+                        <div className="exportFormat" contentEditable={true} onInput={e => setCustomFormat((e.target as HTMLDivElement).textContent || "")}>{customFormat.current}</div>
                     </>}
                     <div className="buttons">
                         <button className="cancel" onClick={closeDialog}>Cancel</button>
-                        <button className="export" onClick={() => { setExportedData(exportData(sources, format, customFormatRef.current || "")); setState("done") }}>Export</button>
+                        <button className="export" onClick={() => { setExportedData(exportData(sources, format, customFormat.current)); setState("done") }}>Export</button>
                     </div>
                 </>
                 :

@@ -66,7 +66,6 @@
             tr td:nth-of-type(1),
             tr td:nth-of-type(5),
             tr td:nth-of-type(7) {
-                display: flex;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
@@ -78,9 +77,11 @@
             }
 
             tr td:nth-of-type(7) {
-                display: flex;
-                justify-content: space-evenly;
-                flex-wrap: wrap;
+                div {
+                    display: flex;
+                    justify-content: space-evenly;
+                    flex-wrap: wrap;
+                }
 
                 button {
                     padding-block: 5px;

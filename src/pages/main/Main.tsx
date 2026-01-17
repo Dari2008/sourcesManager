@@ -32,7 +32,7 @@ export default function Main() {
                     if (!s.startsWith("http")) return;
                     console.log("Pasted URL:", s);
                     lastPastedRef.current = s;
-                    setData(pastedURL(s));
+                    pastedURL(s).then(newData => setData(newData));
                 });
             }
         });
@@ -65,8 +65,8 @@ export default function Main() {
     </div>;
 }
 
-function pastedURL(url: string): Source[] {
-    const source = parseUrl(url);
+async function pastedURL(url: string): Promise<Source[]> {
+    const source = await parseUrl(url);
     const data = loadSourceData();
     if (!source) return data;
     data.push(source);
@@ -134,8 +134,10 @@ function SourceEntry({ source, setHasToReload, setData }: { source: Source, setH
             </div>
         </td>
         <td>
-            <button className="open" onClick={() => { open(source.url, "_blank") }}>Open</button>
-            <button onClick={() => deleteSource(source.uuid, setData)}>Delete</button>
+            <div>
+                <button className="open" onClick={() => { open(source.url, "_blank") }}>Open</button>
+                <button onClick={() => deleteSource(source.uuid, setData)}>Delete</button>
+            </div>
         </td>
     </tr>
 }
